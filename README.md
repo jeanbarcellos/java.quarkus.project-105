@@ -1,3 +1,3 @@
-# Demo 106
+# Project 106
 
-Projeto para testes no Panache ORN
+Projeto para testes no Panache ORM e comparativo com Spring Data
