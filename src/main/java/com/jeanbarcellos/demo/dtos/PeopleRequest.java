@@ -15,6 +15,8 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.OptBoolean;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.jeanbarcellos.core.serialization.TestLocalDateDeserializer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -48,6 +50,7 @@ public class PeopleRequest {
     @PastOrPresent
     @Schema(pattern = "date", description = "Data de nascimento")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
+    @JsonDeserialize(using = TestLocalDateDeserializer.class)
     private LocalDate dateBirthday;
 
 }
