@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.resources;
+package com.jeanbarcellos.project106.resources;
 
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -12,7 +12,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 import com.jeanbarcellos.core.validation.Validator;
-import com.jeanbarcellos.demo.dtos.PeopleRequest;
+import com.jeanbarcellos.project106.dtos.PeopleRequest;
 
 @Path("/people")
 @Tag(name = "Manutenção de Pessoa")

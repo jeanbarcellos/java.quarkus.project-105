@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.domain;
+package com.jeanbarcellos.project106.domain;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,19 +1,17 @@
-package com.jeanbarcellos.demo.domain;
+package com.jeanbarcellos.project106.domain;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.ForeignKey;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 
-import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
 
 import lombok.AllArgsConstructor;
@@ -30,8 +28,8 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
-@Table(name = "category")
-public class Category implements IEntity, IAggregateRoot {
+@Table(name = "comment")
+public class Comment implements IEntity {
 
     @Id
     @Type(type = "uuid-char")
@@ -39,14 +37,15 @@ public class Category implements IEntity, IAggregateRoot {
     @EqualsAndHashCode.Include
     private UUID id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Type(type = "uuid-char")
+    @ManyToOne
+    @JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "comment_post_id_fk"), nullable = false)
+    private Post post;
 
-    @Column(name = "description", nullable = false)
-    protected String description;
+    @Column(name = "author", nullable = false)
+    private String author;
 
-    @Builder.Default
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, orphanRemoval = true)
-    private List<Post> posts = new ArrayList<>();
+    @Column(name = "text", nullable = false)
+    private String text;
 
 }

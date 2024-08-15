@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.exception.handler;
+package com.jeanbarcellos.project106.exception.handler;
 
 import java.util.Arrays;
 import java.util.List;

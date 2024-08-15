@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.dtos;
+package com.jeanbarcellos.project106.dtos;
 
 import java.time.LocalDate;
 import java.util.UUID;

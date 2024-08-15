@@ -1,4 +1,4 @@
-package com.jeanbarcellos.demo.exception.handler;
+package com.jeanbarcellos.project106.exception.handler;
 
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
