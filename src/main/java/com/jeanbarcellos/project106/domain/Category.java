@@ -6,8 +6,11 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.jeanbarcellos.core.domain.IAggregateRoot;
@@ -31,6 +34,8 @@ import lombok.Setter;
 public class Category implements IEntity, IAggregateRoot {
 
     @Id
+    @GeneratedValue(generator = "category_id_seq_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "category_id_seq_generator", sequenceName = "category_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
     private Long id;
@@ -41,8 +46,10 @@ public class Category implements IEntity, IAggregateRoot {
     @Column(name = "description", nullable = false)
     protected String description;
 
+    // -----
+
     @Builder.Default
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, orphanRemoval = true)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
 }

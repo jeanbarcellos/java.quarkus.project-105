@@ -8,13 +8,14 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
@@ -37,12 +38,12 @@ import lombok.Setter;
 public class Post implements IEntity, IAggregateRoot {
 
     @Id
-    @Type(type = "uuid-char")
+    @GeneratedValue(generator = "post_id_seq_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "post_id_seq_generator", sequenceName = "post_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Type(type = "uuid-char")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "post_category_id_fk"), nullable = false)
     private Category category;
@@ -56,6 +57,8 @@ public class Post implements IEntity, IAggregateRoot {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "post_author_id_fk"), nullable = false)
     private Person author;
+
+    // ---
 
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)

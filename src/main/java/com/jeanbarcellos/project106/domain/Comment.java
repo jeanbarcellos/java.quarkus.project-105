@@ -2,13 +2,15 @@ package com.jeanbarcellos.project106.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ForeignKey;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 import com.jeanbarcellos.core.domain.IEntity;
 
@@ -30,17 +32,19 @@ import lombok.Setter;
 public class Comment implements IEntity {
 
     @Id
+    @GeneratedValue(generator = "comment_id_seq_generator", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "comment_id_seq_generator", sequenceName = "comment_id_seq", allocationSize = 1)
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
     private Long id;
 
-    @Type(type = "uuid-char")
     @ManyToOne
     @JoinColumn(name = "post_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "comment_post_id_fk"), nullable = false)
     private Post post;
 
-    @Column(name = "author", nullable = false)
-    private String author;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "comment_author_id_fk"), nullable = false)
+    private Person author;
 
     @Column(name = "text", nullable = false)
     private String text;
