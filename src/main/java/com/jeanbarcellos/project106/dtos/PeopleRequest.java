@@ -37,7 +37,7 @@ public class PeopleRequest {
 
     @NotEmpty
     @CPF
-    private String identificationNumber;
+    private String personalNumber;
 
     @NotEmpty
     @Email
