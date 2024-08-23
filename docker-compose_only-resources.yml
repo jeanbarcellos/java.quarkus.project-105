@@ -1,0 +1,27 @@
+version: "3.4"
+
+services:
+  project106_database:
+    image: postgres:14.5
+    container_name: project106_database
+    restart: always
+    ports:
+      - 5532:5432
+    networks:
+      - project106_net
+    volumes:
+      - project106_database_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=project104
+
+networks:
+  project106_net:
+    name: project106_net
+    driver: bridge
+
+volumes:
+  project106_database_data:
+    name: project106_database_data
+    driver: local
