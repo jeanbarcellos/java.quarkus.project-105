@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project106.dtos;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -30,7 +29,7 @@ import lombok.Setter;
 public class PeopleRequest {
 
     @JsonIgnore
-    private UUID id;
+    private Long id;
 
     @NotEmpty
     @Size(min = 4, max = 128)

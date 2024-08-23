@@ -2,7 +2,6 @@ package com.jeanbarcellos.project106.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -41,7 +40,7 @@ public class Post implements IEntity, IAggregateRoot {
     @Type(type = "uuid-char")
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Type(type = "uuid-char")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -54,7 +53,6 @@ public class Post implements IEntity, IAggregateRoot {
     @Column(name = "text", nullable = false)
     private String text;
 
-    @Type(type = "uuid-char")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "post_author_id_fk"), nullable = false)
     private Person author;

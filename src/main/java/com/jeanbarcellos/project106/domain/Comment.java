@@ -1,7 +1,5 @@
 package com.jeanbarcellos.project106.domain;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ForeignKey;
@@ -32,10 +30,9 @@ import lombok.Setter;
 public class Comment implements IEntity {
 
     @Id
-    @Type(type = "uuid-char")
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Type(type = "uuid-char")
     @ManyToOne

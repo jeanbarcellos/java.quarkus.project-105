@@ -2,7 +2,6 @@ package com.jeanbarcellos.project106.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,8 +9,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
 
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
@@ -34,10 +31,9 @@ import lombok.Setter;
 public class Category implements IEntity, IAggregateRoot {
 
     @Id
-    @Type(type = "uuid-char")
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;

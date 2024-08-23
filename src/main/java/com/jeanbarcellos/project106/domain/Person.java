@@ -1,7 +1,5 @@
 package com.jeanbarcellos.project106.domain;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -31,7 +29,7 @@ public class Person implements IEntity, IAggregateRoot {
     @Type(type = "uuid-char")
     @Column(name = "id", nullable = false, updatable = false)
     @EqualsAndHashCode.Include
-    private UUID id;
+    private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
