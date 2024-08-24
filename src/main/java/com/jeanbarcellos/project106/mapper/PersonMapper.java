@@ -24,4 +24,8 @@ public class PersonMapper extends MapperBase {
         return this.mapList(source, PersonResponse.class);
     }
 
+    public Person copy(Person destination, PersonRequest source) {
+        return this.copyProperties(destination, source);
+    }
+
 }

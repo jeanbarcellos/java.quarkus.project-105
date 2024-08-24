@@ -14,6 +14,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
 
@@ -30,6 +32,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "person")
+@DynamicUpdate
 public class Person implements IEntity, IAggregateRoot {
 
     public static final String FIELD_CPF = "personalNumber";
