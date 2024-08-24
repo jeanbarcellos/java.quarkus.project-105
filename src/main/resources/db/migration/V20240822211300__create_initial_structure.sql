@@ -1,8 +1,9 @@
 
 create table person (
   id serial8 not null,
-  personalNumber varchar(255) not null,
+  personal_number varchar(255) not null,
   name varchar(255) not null,
+  date_birthday date not null,
   email varchar(255) not null,
   primary key (id)
 );
