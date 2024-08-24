@@ -19,12 +19,12 @@ public class Validator {
     @Inject
     javax.validation.Validator innerValidator;
 
-    public <T> Set<ConstraintViolation<T>> validate(T model) {
+    public <T> Set<ConstraintViolation<T>> getViolations(T model) {
         return this.innerValidator.validate(model);
     }
 
-    public <T> void validateWithException(T model) {
-        var constraints = this.validate(model);
+    public <T> void validate(T model) {
+        var constraints = this.getViolations(model);
 
         if (!constraints.isEmpty()) {
             throw createValidationException(constraints);
