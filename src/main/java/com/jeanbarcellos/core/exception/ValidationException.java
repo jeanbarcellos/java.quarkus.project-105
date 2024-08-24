@@ -1,8 +1,9 @@
 package com.jeanbarcellos.core.exception;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 public class ValidationException extends ApplicationException {
@@ -13,11 +14,26 @@ public class ValidationException extends ApplicationException {
 
     public ValidationException(String message) {
         super(message);
-        this.errors = new ArrayList<>();
+        this.errors = null;
+    }
+
+    public ValidationException(String message, Throwable cause) {
+        super(message, cause);
+        this.errors = null;
     }
 
     public ValidationException(String message, List<String> errors) {
         super(message);
+        this.errors = errors;
+    }
+
+    public ValidationException(String message, String... errors) {
+        super(message);
+        this.errors = Arrays.asList(errors);
+    }
+
+    public ValidationException(String message, List<String> errors, Throwable cause) {
+        super(message, cause);
         this.errors = errors;
     }
 
@@ -26,7 +42,7 @@ public class ValidationException extends ApplicationException {
     }
 
     public boolean hasErrors() {
-        return !this.errors.isEmpty();
+        return ObjectUtils.isNotEmpty(this.errors);
     }
 
     public String getMessageToLog() {
