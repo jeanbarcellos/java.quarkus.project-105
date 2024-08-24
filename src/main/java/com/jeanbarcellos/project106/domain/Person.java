@@ -32,6 +32,8 @@ import lombok.NoArgsConstructor;
 @Table(name = "person")
 public class Person implements IEntity, IAggregateRoot {
 
+    public static final String FIELD_CPF = "personalNumber";
+
     @Id
     @GeneratedValue(generator = "person_id_seq_generator", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "person_id_seq_generator", sequenceName = "person_id_seq", allocationSize = 1)
@@ -57,6 +59,5 @@ public class Person implements IEntity, IAggregateRoot {
     @Builder.Default
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
-
 
 }

@@ -11,9 +11,7 @@ import javax.validation.constraints.Size;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.OptBoolean;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +24,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PeopleRequest {
+public class PersonRequest {
 
     @JsonIgnore
     private Long id;
@@ -46,7 +44,8 @@ public class PeopleRequest {
     @NotNull
     @PastOrPresent
     @Schema(pattern = "date", description = "Data de nascimento")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient = OptBoolean.FALSE)
+    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient
+    // = OptBoolean.FALSE)
     private LocalDate dateBirthday;
 
 }
