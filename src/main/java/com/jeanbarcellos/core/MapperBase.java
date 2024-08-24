@@ -26,6 +26,12 @@ public abstract class MapperBase {
                 .collect(Collectors.toList());
     }
 
+    protected <D, S> D copyProperties(D destination, S source) {
+        this.getModelMapper().map(source, destination);
+
+        return destination;
+    }
+
     private ModelMapper getModelMapper() {
         if (this.modelMapper != null) {
             return modelMapper;

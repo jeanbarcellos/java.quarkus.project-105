@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ValidateInterceptor {
 
     @Inject
-    private Validator validator;
+    protected Validator validator;
 
     @AroundInvoke
     Object validate(InvocationContext context) throws Exception {
