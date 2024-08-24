@@ -37,15 +37,12 @@ public class PersonRequest {
     @CPF
     private String personalNumber;
 
-    @NotEmpty
-    @Email
-    private String email;
-
     @NotNull
     @PastOrPresent
     @Schema(pattern = "date", description = "Data de nascimento")
-    // @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", lenient
-    // = OptBoolean.FALSE)
     private LocalDate dateBirthday;
 
+    @NotEmpty
+    @Email
+    private String email;
 }

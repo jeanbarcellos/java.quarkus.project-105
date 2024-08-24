@@ -1,5 +1,6 @@
 package com.jeanbarcellos.project106.domain;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,8 +48,11 @@ public class Person implements IEntity, IAggregateRoot {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "personalNumber", nullable = false)
+    @Column(name = "personal_number", nullable = false)
     private String personalNumber;
+
+    @Column(name = "date_birthday", nullable = false)
+    private LocalDate dateBirthday;
 
     @Column(name = "email", nullable = false)
     private String email;

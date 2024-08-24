@@ -18,7 +18,7 @@ public class PersonResponse {
     private Long id;
     private String name;
     private String personalNumber;
-    private String email;
     private LocalDate dateBirthday;
+    private String email;
 
 }
