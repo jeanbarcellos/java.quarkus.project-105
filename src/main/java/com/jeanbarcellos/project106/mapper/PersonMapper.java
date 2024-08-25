@@ -10,10 +10,10 @@ import com.jeanbarcellos.project106.dtos.PersonResponse;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class PersonMapper extends MapperBase {
+public class PersonMapper extends MapperBase<Person> {
 
     public Person toPerson(PersonRequest source) {
-        return this.map(source, Person.class);
+        return this.map(source);
     }
 
     public PersonResponse toPersonResponse(Person source) {
