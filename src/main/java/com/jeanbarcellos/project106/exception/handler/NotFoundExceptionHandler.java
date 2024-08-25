@@ -1,13 +1,12 @@
 package com.jeanbarcellos.project106.exception.handler;
 
-import javax.ws.rs.NotFoundException;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
 import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 
+import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

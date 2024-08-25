@@ -4,12 +4,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.validation.ConstraintViolation;
-
 import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.exception.ValidationException;
+
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.validation.ConstraintViolation;
 
 @ApplicationScoped
 public class Validator {
@@ -17,7 +17,7 @@ public class Validator {
     public static final String MSG_ERROR = "O campo '%s' %s";
 
     @Inject
-    javax.validation.Validator innerValidator;
+    jakarta.validation.Validator innerValidator;
 
     public <T> Set<ConstraintViolation<T>> getViolations(T model) {
         return this.innerValidator.validate(model);

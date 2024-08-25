@@ -2,11 +2,6 @@ package com.jeanbarcellos.project106.services;
 
 import java.util.List;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.transaction.Transactional;
-import javax.ws.rs.NotFoundException;
-
 import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.core.validation.Validate;
@@ -17,6 +12,10 @@ import com.jeanbarcellos.project106.dtos.PersonResponse;
 import com.jeanbarcellos.project106.mapper.PersonMapper;
 import com.jeanbarcellos.project106.repositories.PersonRepository;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
+import jakarta.ws.rs.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

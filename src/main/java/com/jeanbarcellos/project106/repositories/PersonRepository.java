@@ -1,9 +1,9 @@
 package com.jeanbarcellos.project106.repositories;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.jeanbarcellos.core.RepositoryBase;
 import com.jeanbarcellos.project106.domain.Person;
+
+import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
 public class PersonRepository extends RepositoryBase<Person, Long> {

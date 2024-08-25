@@ -3,10 +3,6 @@ package com.jeanbarcellos.project106.exception.handler;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
-
 import org.apache.commons.lang3.ObjectUtils;
 
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
@@ -15,6 +11,9 @@ import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.dto.ErrorResponse;
 import com.jeanbarcellos.core.validation.Validator;
 
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.ext.ExceptionMapper;
+import jakarta.ws.rs.ext.Provider;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

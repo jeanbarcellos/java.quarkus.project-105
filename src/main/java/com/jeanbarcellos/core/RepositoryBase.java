@@ -6,14 +6,11 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import javax.enterprise.context.ApplicationScoped;
-
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 
-@ApplicationScoped
-public class RepositoryBase<TEntity extends IAggregateRoot, TId>// TId=ID, TEntity=Entity
+public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEntity=Entity
         implements PanacheRepositoryBase<TEntity, TId> {
 
     protected static final String FIELD_ID = "id";
@@ -68,7 +65,7 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId>// TId=ID, TEnti
     }
 
     // public List<TEntity> findBy(String fieldName, Object value, Sort sort) {
-    //     return this.list(fieldName, SortMapper.toPanacheSort(sort), value);
+    // return this.list(fieldName, SortMapper.toPanacheSort(sort), value);
     // }
 
     public List<TEntity> findBy(Map<String, Object> params) {
@@ -76,18 +73,22 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId>// TId=ID, TEnti
     }
 
     // public List<TEntity> findBy(Map<String, Object> params, Sort sort) {
-    //     return this.list(this.createQueryFromMap(params), SortMapper.toPanacheSort(sort), params);
+    // return this.list(this.createQueryFromMap(params),
+    // SortMapper.toPanacheSort(sort), params);
     // }
 
-    // public Page<TEntity> findBy(Map<String, Object> params, PageRequest pageRequest) {
-    //     Long total = this.countBy(params);
+    // public Page<TEntity> findBy(Map<String, Object> params, PageRequest
+    // pageRequest) {
+    // Long total = this.countBy(params);
 
-    //     List<TEntity> entities = this
-    //             .find(this.createQueryFromMap(params), SortMapper.toPanacheSort(pageRequest.getSort()), params)
-    //             .page(pageRequest.getIndex(), pageRequest.getSize())
-    //             .list();
+    // List<TEntity> entities = this
+    // .find(this.createQueryFromMap(params),
+    // SortMapper.toPanacheSort(pageRequest.getSort()), params)
+    // .page(pageRequest.getIndex(), pageRequest.getSize())
+    // .list();
 
-    //     return Page.of(pageRequest.getPage(), pageRequest.getSize(), total, entities);
+    // return Page.of(pageRequest.getPage(), pageRequest.getSize(), total,
+    // entities);
     // }
 
     public <T extends Throwable> TEntity findByIdOrThrow(TId id,
@@ -112,9 +113,9 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId>// TId=ID, TEnti
     }
 
     // public TEntity findFirstBy(String fieldName, Object value, Sort sort) {
-    //     var entities = this.findBy(fieldName, value, sort);
+    // var entities = this.findBy(fieldName, value, sort);
 
-    //     return entities.isEmpty() ? null : entities.get(0);
+    // return entities.isEmpty() ? null : entities.get(0);
     // }
 
     public Optional<TEntity> findFirstByAsOptional(String fieldName, Object value) {
@@ -133,19 +134,20 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId>// TId=ID, TEnti
     // #region findAll
 
     // public List<TEntity> findAll(Sort sort) {
-    //     return this.findAll(SortMapper.toPanacheSort(sort))
-    //             .list();
+    // return this.findAll(SortMapper.toPanacheSort(sort))
+    // .list();
     // }
 
     // public Page<TEntity> findAll(PageRequest pageRequest) {
-    //     Long total = this.count();
+    // Long total = this.count();
 
-    //     List<TEntity> entities = this
-    //             .findAll(SortMapper.toPanacheSort(pageRequest.getSort()))
-    //             .page(pageRequest.getIndex(), pageRequest.getSize())
-    //             .list();
+    // List<TEntity> entities = this
+    // .findAll(SortMapper.toPanacheSort(pageRequest.getSort()))
+    // .page(pageRequest.getIndex(), pageRequest.getSize())
+    // .list();
 
-    //     return Page.of(pageRequest.getPage(), pageRequest.getSize(), total, entities);
+    // return Page.of(pageRequest.getPage(), pageRequest.getSize(), total,
+    // entities);
     // }
 
     // #endregion
