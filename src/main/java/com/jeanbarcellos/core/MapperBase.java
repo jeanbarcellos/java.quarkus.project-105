@@ -29,6 +29,10 @@ public abstract class MapperBase<TEntity extends IAggregateRoot> {
         return this.mapList(source, destinationType);
     }
 
+    public TEntity copy(TEntity source, Object request) {
+        return this.copyProperties(source, request);
+    }
+
     // ---
 
     protected <S> TEntity map(S source) {
