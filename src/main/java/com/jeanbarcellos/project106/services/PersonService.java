@@ -22,8 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class PersonService {
 
-    public static final String MSG_ERROR_PESSOA_NOT_FOUND = "Não há pessoa para o ID '%s' informado.";
-    public static final String MSG_ERROR_PESSOA_CPF_EXISTS = "Pessoa com o CPF '%s' já existe.";
+    public static final String MSG_ERROR_PERSON_NOT_FOUND = "Não há pessoa para o ID '%s' informado.";
+    public static final String MSG_ERROR_PERSON_CPF_EXISTS = "Pessoa com o CPF '%s' já existe.";
 
     @Inject
     protected Validator validator;
@@ -73,7 +73,7 @@ public class PersonService {
     @Transactional
     public void delete(Long id) {
         if (!this.repository.existsById(id)) {
-            throw new NotFoundException(String.format(MSG_ERROR_PESSOA_NOT_FOUND, id));
+            throw new NotFoundException(String.format(MSG_ERROR_PERSON_NOT_FOUND, id));
         }
 
         this.repository.deleteById(id);
@@ -83,13 +83,13 @@ public class PersonService {
 
     private Person findByIdOrThrow(Long id) {
         return this.repository.findByIdOrThrow(id,
-                () -> new NotFoundException(String.format(MSG_ERROR_PESSOA_NOT_FOUND, id)));
+                () -> new NotFoundException(String.format(MSG_ERROR_PERSON_NOT_FOUND, id)));
     }
 
     private void validateExistsByCpf(String cpf) {
         if (this.repository.existsByCpf(cpf)) {
             throw new ValidationException(Constants.MSG_ERROR_VALIDATION,
-                    String.format(MSG_ERROR_PESSOA_CPF_EXISTS, cpf));
+                    String.format(MSG_ERROR_PERSON_CPF_EXISTS, cpf));
         }
     }
 

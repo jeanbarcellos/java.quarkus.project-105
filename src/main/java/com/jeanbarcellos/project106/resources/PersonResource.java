@@ -21,7 +21,7 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.Response.Status;
 
 @Path("/people")
-@Tag(name = "Manutenção de Pessoa")
+@Tag(name = "Person handler")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class PersonResource {

@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.br.CPF;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
@@ -21,18 +21,18 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
+@AllArgsConstructor(staticName = "of")
 @Builder
 public class PersonRequest {
 
     @JsonIgnore
     private Long id;
 
-    @NotEmpty
+    @NotBlank
     @Size(min = 4, max = 128)
     private String name;
 
-    @NotEmpty
+    @NotBlank
     @CPF
     private String personalNumber;
 
@@ -41,7 +41,7 @@ public class PersonRequest {
     @Schema(pattern = "date", description = "Data de nascimento")
     private LocalDate dateBirthday;
 
-    @NotEmpty
+    @NotBlank
     @Email
     private String email;
 }
