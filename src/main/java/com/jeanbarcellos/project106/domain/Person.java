@@ -31,8 +31,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
-@Table(name = "person")
 @DynamicUpdate
+@Table(name = "person")
 public class Person implements IEntity, IAggregateRoot {
 
     public static final String FIELD_CPF = "personalNumber";

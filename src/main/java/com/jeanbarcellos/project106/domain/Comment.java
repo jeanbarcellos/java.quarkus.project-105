@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project106.domain;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.jeanbarcellos.core.domain.IEntity;
 
 import jakarta.persistence.Column;
@@ -27,6 +29,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
+@DynamicUpdate
 @Table(name = "comment")
 public class Comment implements IEntity {
 

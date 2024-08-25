@@ -3,6 +3,8 @@ package com.jeanbarcellos.project106.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
 
@@ -33,6 +35,7 @@ import lombok.Setter;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Builder
 @Entity
+@DynamicUpdate
 @Table(name = "post")
 public class Post implements IEntity, IAggregateRoot {
 
