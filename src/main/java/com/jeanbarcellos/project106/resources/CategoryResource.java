@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.jeanbarcellos.project106.dtos.CategoryRequest;
 import com.jeanbarcellos.project106.services.CategoryService;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -24,6 +25,7 @@ import jakarta.ws.rs.core.Response.Status;
 @Tag(name = "Category handler")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class CategoryResource {
 
     @Inject

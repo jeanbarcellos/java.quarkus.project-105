@@ -7,6 +7,7 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.jeanbarcellos.project106.dtos.PersonRequest;
 import com.jeanbarcellos.project106.services.PersonService;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
@@ -24,6 +25,7 @@ import jakarta.ws.rs.core.Response.Status;
 @Tag(name = "Person handler")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@ApplicationScoped
 public class PersonResource {
 
     @Inject
