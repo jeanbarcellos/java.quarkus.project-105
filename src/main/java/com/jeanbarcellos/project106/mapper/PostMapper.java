@@ -1,7 +1,6 @@
 package com.jeanbarcellos.project106.mapper;
 
 import org.modelmapper.Converter;
-import org.modelmapper.ExpressionMap;
 
 import com.jeanbarcellos.core.MapperBase;
 import com.jeanbarcellos.project106.domain.Category;
@@ -28,93 +27,32 @@ public class PostMapper extends MapperBase<Post> {
     public Post copy(Post destination, PostRequest source) {
         var mp = this.getModelMapper();
 
-        Converter<Long, Category> categoryConverter = context -> {
-            var value = context.getSource();
-
-            var category = this.categoryRepository.getReference(value);
-            return category;
-        };
-
-        Converter<Long, Person> personConverter = context -> {
-            var value = context.getSource();
-
-            var person = this.personRepository.getReference(value);
-            return person;
-        };
-
-        mp.addConverter(categoryConverter, Long.class, Category.class);
-        mp.addConverter(personConverter, Long.class, Person.class);
+        mp.addConverter(this.getCategoryConverter(), Long.class, Category.class);
+        mp.addConverter(this.getPersonConverter(), Long.class, Person.class);
 
         mp.map(source, destination);
 
         return destination;
     }
 
-    public Post copy3(Post destination, PostRequest source) {
-        var mp = this.getModelMapper();
+    private Converter<Long, Person> getPersonConverter() {
+        return context -> {
+            var id = context.getSource();
 
-        log.info("source.getCategoryId() {}", source.getCategoryId());
-        log.info("source.getAuthorId() {}", source.getAuthorId());
-        log.info("destination.getCategory().getId() {}", destination.getCategory().getId());
-        log.info("destination.getAuthor.getId() {}", destination.getAuthor().getId());
+            var entity = this.personRepository.getReference(id);
 
-        // TypeMap<PostRequest, Post> propertyMapper =
-        // mapper.createTypeMap(PostRequest.class, Post.class);
-
-        ExpressionMap<PostRequest, Post> mapper = mapperInt -> {
-            mapperInt.<Long>map(PostRequest::getCategoryId,
-                    (dest, value) -> {
-                        log.info("getCategoryId() {}", value);
-
-                        // var category = this.categoryRepository.getReference(value);
-                        // dest.setCategory(category);
-
-                        dest.getCategory().setId(value);
-                    });
-
-            mapperInt.<Long>map(PostRequest::getAuthorId,
-                    (dest, value) -> {
-                        log.info("getAuthorId() {}", value);
-
-                        // var person = this.personRepository.getReference(value);
-                        // dest.setAuthor(person);
-
-                        dest.getAuthor().setId(value);
-                    });
+            return entity;
         };
-
-        mp.typeMap(PostRequest.class, Post.class)
-                .addMappings(mapper);
-
-        // typeMap.addMappings(mapper -> mapper.<String>map(src ->
-        // src.getPerson().getFirstName(), (dest, v) -> dest.getCustomer().setName(v)));
-
-        // // Provider<Post> postProvider = p -> this.postRepository.findById(1L);
-
-        mp.map(source, destination);
-
-        log.info("source.getCategoryId() {}", source.getCategoryId());
-        log.info("source.getAuthorId() {}", source.getAuthorId());
-        log.info("destination.getCategory().getId() {}", destination.getCategory().getId());
-        log.info("destination.getAuthor.getId() {}", destination.getAuthor().getId());
-
-        return destination;
-        // return this.copyProperties(source, request);
     }
 
-    public Post copy2(Post destination, PostRequest source) {
-        var mp = this.getModelMapper();
+    private Converter<Long, Category> getCategoryConverter() {
+        return context -> {
+            var id = context.getSource();
 
-        destination.setCategory(this.categoryRepository.getReference(source.getCategoryId()));
-        destination.setAuthor(this.personRepository.getReference(source.getAuthorId()));
-        destination.setTitle(source.getTitle());
-        destination.setText(source.getText());
+            var entity = this.categoryRepository.getReference(id);
 
-        mp.map(source, destination);
-
-        log.info("getCategoryId() {}", source.getCategoryId());
-        log.info("getAuthorId() {}", source.getAuthorId());
-
-        return destination;
+            return entity;
+        };
     }
+
 }
