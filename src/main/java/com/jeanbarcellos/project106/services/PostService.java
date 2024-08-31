@@ -4,10 +4,15 @@ import java.util.List;
 
 import com.jeanbarcellos.core.validation.Validate;
 import com.jeanbarcellos.core.validation.Validator;
+import com.jeanbarcellos.project106.domain.Comment;
 import com.jeanbarcellos.project106.domain.Post;
+import com.jeanbarcellos.project106.dtos.CommentRequest;
+import com.jeanbarcellos.project106.dtos.CommentResponse;
 import com.jeanbarcellos.project106.dtos.PostRequest;
 import com.jeanbarcellos.project106.dtos.PostResponse;
 import com.jeanbarcellos.project106.mapper.PostMapper;
+import com.jeanbarcellos.project106.repositories.CategoryRepository;
+import com.jeanbarcellos.project106.repositories.PersonRepository;
 import com.jeanbarcellos.project106.repositories.PostRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
@@ -20,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class PostService {
 
-    public static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID '%s' informado.";
+    public static final String MSG_ERROR_POST_NOT_FOUND = "Não há categoria para o ID '%s' informado.";
 
     @Inject
     protected Validator validator;
@@ -30,6 +35,12 @@ public class PostService {
 
     @Inject
     protected PostMapper mapper;
+
+    @Inject
+    PersonRepository personRepository;
+
+    @Inject
+    CategoryRepository categoryRepository;
 
     public List<PostResponse> getAll() {
         var entities = this.repository.listAll();
@@ -45,6 +56,8 @@ public class PostService {
 
     @Transactional
     public PostResponse insert(@Validate PostRequest request) {
+        this.validar(request);
+
         var entity = this.mapper.toEntity(request);
 
         this.repository.persist(entity);
@@ -56,6 +69,8 @@ public class PostService {
 
     @Transactional
     public PostResponse update(@Validate PostRequest request) {
+        this.validar(request);
+
         var entity = this.findByIdOrThrow(request.getId());
 
         this.mapper.copy(entity, request);
@@ -68,7 +83,7 @@ public class PostService {
     @Transactional
     public void delete(Long id) {
         if (!this.repository.existsById(id)) {
-            throw new NotFoundException(String.format(MSG_ERROR_CATEGORY_NOT_FOUND, id));
+            throw new NotFoundException(String.format(MSG_ERROR_POST_NOT_FOUND, id));
         }
 
         this.repository.deleteById(id);
@@ -76,9 +91,60 @@ public class PostService {
         this.repository.flush();
     }
 
-    private Post findByIdOrThrow(Long id) {
-        return this.repository.findByIdOrThrow(id,
-                () -> new NotFoundException(String.format(MSG_ERROR_CATEGORY_NOT_FOUND, id)));
+    public List<CommentResponse> getAllComments(Long id) {
+        var post = this.findByIdOrThrow(id);
+
+        var comments = post.getComments();
+
+        return this.mapper.toList(comments, CommentResponse.class);
     }
 
+    @Transactional
+    public void deleteAllComments(Long id) {
+        var post = this.findByIdOrThrow(id);
+
+        var comments = post.getComments();
+        comments.clear();
+
+        this.repository.flush();
+    }
+
+    @Transactional
+    public CommentResponse insertComment(@Validate CommentRequest request) {
+        var post = this.findByIdOrThrow(request.getPostId());
+
+        var comment = this.mapper.to(request, Comment.class);
+
+        var comments = post.getComments();
+        comments.add(comment);
+
+        this.repository.flush();
+
+        return this.mapper.to(comment, CommentResponse.class);
+    }
+
+    public CommentResponse updateComment(@Validate CommentRequest request) {
+        var post = this.findByIdOrThrow(request.getPostId());
+
+        // TODO
+
+        return null;
+    }
+
+    private Post findByIdOrThrow(Long id) {
+        return this.repository.findByIdOrThrow(id,
+                () -> new NotFoundException(String.format(MSG_ERROR_POST_NOT_FOUND, id)));
+    }
+
+    private void validar(PostRequest request) {
+        if (!this.categoryRepository.existsById(request.getCategoryId())) {
+            throw new NotFoundException(
+                    String.format("Não há categoria para o ID '%s' informado.", request.getCategoryId()));
+        }
+
+        if (!this.personRepository.existsById(request.getAuthorId())) {
+            throw new NotFoundException(
+                    String.format("Não há pessoa para o ID '%s' informado.", request.getAuthorId()));
+        }
+    }
 }
