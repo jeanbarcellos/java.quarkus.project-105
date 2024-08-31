@@ -1,5 +1,6 @@
 package com.jeanbarcellos.core;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,6 +10,10 @@ import java.util.stream.Collectors;
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceUtil;
+import jakarta.transaction.TransactionManager;
 
 public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEntity=Entity
         implements PanacheRepositoryBase<TEntity, TId> {
@@ -16,6 +21,8 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEnt
     protected static final String FIELD_ID = "id";
     private static final String QUERY_PARAM_JOIN = "=:";
     private static final String QUERY_AND_DELIMITER = " and ";
+
+    private Class<TEntity> entityClass;
 
     // #region count
 
@@ -152,9 +159,34 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEnt
 
     // #endregion
 
-    public TEntity getReference(Class<TEntity> entityClass, TId id) {
-        return this.getEntityManager().getReference(entityClass, id);
+    // -------------------------------------------------------------------------
+
+    public TEntity getReference(TId id) {
+        return this.getEntityManager().getReference(this.getEntityClass(), id);
     }
+
+    // -------------------------------------------------------------------------
+
+    // isInitialized
+    public boolean isLoaded(Object entity) {
+        PersistenceUtil persistenceUnitUtil = Persistence.getPersistenceUtil();
+        return persistenceUnitUtil.isLoaded(entity);
+    }
+
+    // isInitialized
+    public boolean isLoaded(Object entity, String attributeName) {
+        PersistenceUtil persistenceUnitUtil = Persistence.getPersistenceUtil();
+        return persistenceUnitUtil.isLoaded(entity, attributeName);
+    }
+
+    // -------------------------------------------------------------------------
+
+    public EntityTransaction getTransaction() {
+        return this.getEntityManager().getTransaction();
+        // return this.getSession().getTransaction();
+    }
+
+    // -------------------------------------------------------------------------
 
     // #region Private methods
 
@@ -162,6 +194,16 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEnt
         return map.entrySet().stream()
                 .map(entry -> entry.getKey() + QUERY_PARAM_JOIN + entry.getKey())
                 .collect(Collectors.joining(QUERY_AND_DELIMITER));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Class<TEntity> getEntityClass() {
+        if (this.entityClass == null) {
+            this.entityClass = (Class<TEntity>) ((ParameterizedType) getClass().getGenericSuperclass())
+                    .getActualTypeArguments()[0];
+        }
+
+        return this.entityClass;
     }
 
     // #endregion
