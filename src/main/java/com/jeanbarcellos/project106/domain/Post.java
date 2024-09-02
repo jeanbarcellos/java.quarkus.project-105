@@ -2,6 +2,7 @@ package com.jeanbarcellos.project106.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -22,6 +23,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -64,8 +66,16 @@ public class Post implements IEntity, IAggregateRoot {
     // ---
 
     @Builder.Default
+    @Setter(AccessLevel.NONE)
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     @OrderBy("id DESC")
     private List<Comment> comments = new ArrayList<>();
+
+    public Comment findCommentById(Long commentId) {
+        return this.comments.stream()
+                .filter(comment -> Objects.equals(comment.getId(), commentId))
+                .findFirst()
+                .orElse(null);
+    }
 
 }

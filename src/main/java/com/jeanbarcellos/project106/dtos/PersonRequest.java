@@ -6,6 +6,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.validator.constraints.br.CPF;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jeanbarcellos.core.validation.constraints.LengthExact;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -33,6 +34,7 @@ public class PersonRequest {
     private String name;
 
     @NotBlank
+    @LengthExact(length = 11)
     @CPF
     private String personalNumber;
 

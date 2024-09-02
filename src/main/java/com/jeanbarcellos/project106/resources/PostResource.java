@@ -72,20 +72,35 @@ public class PostResource {
     @GET
     @Path("/{id}/comments")
     @Operation(summary = "Listar Comentários do post")
-    public Response getAllComments(@PathParam("id") Long id) {
-        return Response.ok(this.service.getAllComments(id)).build();
+    public Response getAllComments(@PathParam("id") Long postId) {
+        return Response.ok(this.service.getAllComments(postId)).build();
     }
 
     @POST
     @Path("/{id}/comments")
     @Operation(summary = "Criar Comentários no post")
-    public Response insertComment(@PathParam("id") Long id, @RequestBody CommentRequest request) {
-        return Response.ok(this.service.insertComment(request.setPostId(id))).build();
+    public Response insertComment(@PathParam("id") Long postId, @RequestBody CommentRequest request) {
+        return Response.ok(this.service.insertComment(request.setPostId(postId))).build();
+    }
+
+    @GET
+    @Path("/{id}/comments/{commentId}")
+    @Operation(summary = "Obter um comentário do post")
+    public Response getCommentById(@PathParam("id") Long postId, @PathParam("commentId") Long commentId) {
+        return Response.ok(this.service.getCommentById(postId, commentId)).build();
+    }
+
+    @PUT
+    @Path("/{id}/comments/{commentId}")
+    @Operation(summary = "Alterar um comentários do post")
+    public Response updateComment(@PathParam("id") Long postId, @PathParam("commentId") Long commentId,
+            @RequestBody CommentRequest request) {
+        return Response.ok(this.service.updateComment(request.setId(commentId).setPostId(postId))).build();
     }
 
     @DELETE
     @Path("/{id}/comments")
-    @Operation(summary = "Apatar todos comentários do post")
+    @Operation(summary = "Apagar todos comentários do post")
     public Response delteAllComment(@PathParam("id") Long id) {
         this.service.deleteAllComments(id);
         return Response.noContent().build();

@@ -2,6 +2,7 @@ package com.jeanbarcellos.project106.services;
 
 import java.util.List;
 
+import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.validation.Validate;
 import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project106.domain.Comment;
@@ -56,7 +57,7 @@ public class PostService {
 
     @Transactional
     public PostResponse insert(@Validate PostRequest request) {
-        this.validar(request);
+        this.validate(request);
 
         var entity = this.mapper.toEntity(request);
 
@@ -69,7 +70,7 @@ public class PostService {
 
     @Transactional
     public PostResponse update(@Validate PostRequest request) {
-        this.validar(request);
+        this.validate(request);
 
         var entity = this.findByIdOrThrow(request.getId());
 
@@ -123,12 +124,31 @@ public class PostService {
         return this.mapper.to(comment, CommentResponse.class);
     }
 
+    public CommentResponse getCommentById(Long postId, Long commentId) {
+        var post = this.findByIdOrThrow(postId);
+
+        var comment = this.findCommentByIdOrThrow(post, commentId);
+
+        return this.mapper.to(comment, CommentResponse.class);
+    }
+
+    @Transactional
     public CommentResponse updateComment(@Validate CommentRequest request) {
         var post = this.findByIdOrThrow(request.getPostId());
 
-        // TODO
+        var comment = this.findCommentByIdOrThrow(post, request.getId());
 
-        return null;
+        this.mapper.copy(comment, request);
+
+        return this.mapper.to(comment, CommentResponse.class);
+    }
+
+    public void deleteCommentById(Long postId, Long commentId) {
+        var post = this.findByIdOrThrow(postId);
+
+        var comment = this.findCommentByIdOrThrow(post, commentId);
+
+        log.info("Comment {}", comment);
     }
 
     private Post findByIdOrThrow(Long id) {
@@ -136,15 +156,26 @@ public class PostService {
                 () -> new NotFoundException(String.format(MSG_ERROR_POST_NOT_FOUND, id)));
     }
 
-    private void validar(PostRequest request) {
+    private Comment findCommentByIdOrThrow(Post post, Long commentId) {
+        var comment = post.findCommentById(commentId);
+
+        if (comment == null) {
+            throw new NotFoundException(String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "comentário", commentId));
+        }
+
+        return comment;
+    }
+
+    private void validate(PostRequest request) {
         if (!this.categoryRepository.existsById(request.getCategoryId())) {
             throw new NotFoundException(
-                    String.format("Não há categoria para o ID '%s' informado.", request.getCategoryId()));
+                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "categoria", request.getCategoryId()));
         }
 
         if (!this.personRepository.existsById(request.getAuthorId())) {
             throw new NotFoundException(
-                    String.format("Não há pessoa para o ID '%s' informado.", request.getAuthorId()));
+                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "pessoa", request.getAuthorId()));
         }
     }
+
 }

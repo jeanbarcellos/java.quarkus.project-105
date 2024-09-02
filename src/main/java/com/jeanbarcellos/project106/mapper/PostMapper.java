@@ -4,8 +4,10 @@ import org.modelmapper.Converter;
 
 import com.jeanbarcellos.core.MapperBase;
 import com.jeanbarcellos.project106.domain.Category;
+import com.jeanbarcellos.project106.domain.Comment;
 import com.jeanbarcellos.project106.domain.Person;
 import com.jeanbarcellos.project106.domain.Post;
+import com.jeanbarcellos.project106.dtos.CommentRequest;
 import com.jeanbarcellos.project106.dtos.PostRequest;
 import com.jeanbarcellos.project106.repositories.CategoryRepository;
 import com.jeanbarcellos.project106.repositories.PersonRepository;
@@ -19,10 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 public class PostMapper extends MapperBase<Post> {
 
     @Inject
-    PersonRepository personRepository;
+    protected PersonRepository personRepository;
 
     @Inject
-    CategoryRepository categoryRepository;
+    protected CategoryRepository categoryRepository;
 
     public Post copy(Post destination, PostRequest source) {
         var mp = this.getModelMapper();
@@ -35,23 +37,22 @@ public class PostMapper extends MapperBase<Post> {
         return destination;
     }
 
+    public Comment copy(Comment comment, CommentRequest request) {
+        comment.setText(request.getText());
+        return comment;
+    }
+
     private Converter<Long, Person> getPersonConverter() {
         return context -> {
             var id = context.getSource();
-
-            var entity = this.personRepository.getReference(id);
-
-            return entity;
+            return this.personRepository.getReference(id);
         };
     }
 
     private Converter<Long, Category> getCategoryConverter() {
         return context -> {
             var id = context.getSource();
-
-            var entity = this.categoryRepository.getReference(id);
-
-            return entity;
+            return this.categoryRepository.getReference(id);
         };
     }
 
