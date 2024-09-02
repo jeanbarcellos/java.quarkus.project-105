@@ -13,7 +13,6 @@ import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.PersistenceUtil;
-import jakarta.transaction.TransactionManager;
 
 public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEntity=Entity
         implements PanacheRepositoryBase<TEntity, TId> {
