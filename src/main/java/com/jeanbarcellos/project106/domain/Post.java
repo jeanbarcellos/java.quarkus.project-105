@@ -71,6 +71,14 @@ public class Post implements IEntity, IAggregateRoot {
     @OrderBy("id DESC")
     private List<Comment> comments = new ArrayList<>();
 
+    public boolean addComment(Comment comment) {
+        return this.comments.add(comment);
+    }
+
+    public boolean removeCommentById(Long commentId) {
+        return this.comments.removeIf(comment -> Objects.equals(comment.getId(), commentId));
+    }
+
     public Comment findCommentById(Long commentId) {
         return this.comments.stream()
                 .filter(comment -> Objects.equals(comment.getId(), commentId))

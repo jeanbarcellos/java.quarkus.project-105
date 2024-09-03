@@ -92,8 +92,12 @@ public class PostService {
         this.repository.flush();
     }
 
-    public List<CommentResponse> getAllComments(Long id) {
-        var post = this.findByIdOrThrow(id);
+    // -----------------------------------------------------------------------------------------------------------------
+    // Comentários
+    // -----------------------------------------------------------------------------------------------------------------
+
+    public List<CommentResponse> getAllComments(Long postId) {
+        var post = this.findByIdOrThrow(postId);
 
         var comments = post.getComments();
 
@@ -101,13 +105,21 @@ public class PostService {
     }
 
     @Transactional
-    public void deleteAllComments(Long id) {
-        var post = this.findByIdOrThrow(id);
+    public void deleteAllComments(Long postId) {
+        var post = this.findByIdOrThrow(postId);
 
         var comments = post.getComments();
         comments.clear();
 
         this.repository.flush();
+    }
+
+    public CommentResponse getCommentById(Long postId, Long commentId) {
+        var post = this.findByIdOrThrow(postId);
+
+        var comment = this.findCommentByIdOrThrow(post, commentId);
+
+        return this.mapper.to(comment, CommentResponse.class);
     }
 
     @Transactional
@@ -116,18 +128,9 @@ public class PostService {
 
         var comment = this.mapper.to(request, Comment.class);
 
-        var comments = post.getComments();
-        comments.add(comment);
+        post.addComment(comment);
 
         this.repository.flush();
-
-        return this.mapper.to(comment, CommentResponse.class);
-    }
-
-    public CommentResponse getCommentById(Long postId, Long commentId) {
-        var post = this.findByIdOrThrow(postId);
-
-        var comment = this.findCommentByIdOrThrow(post, commentId);
 
         return this.mapper.to(comment, CommentResponse.class);
     }
@@ -140,16 +143,24 @@ public class PostService {
 
         this.mapper.copy(comment, request);
 
+        this.repository.flush();
+
         return this.mapper.to(comment, CommentResponse.class);
     }
 
-    public void deleteCommentById(Long postId, Long commentId) {
+    @Transactional
+    public void deleteComment(Long postId, Long commentId) {
         var post = this.findByIdOrThrow(postId);
 
         var comment = this.findCommentByIdOrThrow(post, commentId);
 
-        log.info("Comment {}", comment);
+        post.removeCommentById(comment.getId());
+
+        this.repository.flush();
     }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------------------------------------
 
     private Post findByIdOrThrow(Long id) {
         return this.repository.findByIdOrThrow(id,
