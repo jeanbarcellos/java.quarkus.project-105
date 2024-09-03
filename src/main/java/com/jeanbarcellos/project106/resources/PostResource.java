@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project106.resources;
 
+import java.net.URI;
+
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -18,9 +20,10 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.PathParam;
 import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import jakarta.ws.rs.core.Response.Status;
+import jakarta.ws.rs.core.UriInfo;
 
 @Path("/posts")
 @Tag(name = "Post handler")
@@ -49,9 +52,14 @@ public class PostResource {
     @POST
     @Path("/")
     @Operation(summary = "Inserir um post")
-    public Response insert(@RequestBody PostRequest request) {
-        return Response.status(Status.CREATED)
-                .entity(this.service.insert(request)).build();
+    public Response insert(@RequestBody PostRequest request, @Context UriInfo uriInfo) {
+        var response = this.service.insert(request);
+
+        var uri = uriInfo.getAbsolutePathBuilder()
+                .path(PostResource.class, "getById")
+                .build(response.getId());
+
+        return Response.created(uri).entity(response).build();
     }
 
     @PUT

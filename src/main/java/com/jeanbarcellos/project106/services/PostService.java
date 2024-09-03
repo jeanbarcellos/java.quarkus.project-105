@@ -108,8 +108,7 @@ public class PostService {
     public void deleteAllComments(Long postId) {
         var post = this.findByIdOrThrow(postId);
 
-        var comments = post.getComments();
-        comments.clear();
+        post.removeAllComments();
 
         this.repository.flush();
     }
@@ -168,7 +167,9 @@ public class PostService {
     }
 
     private Comment findCommentByIdOrThrow(Post post, Long commentId) {
-        var comment = post.findCommentById(commentId);
+
+        // var comment = post.findCommentById(commentId);
+        var comment = this.repository.findCommentById(post.getId(), commentId);
 
         if (comment == null) {
             throw new NotFoundException(String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "comentário", commentId));

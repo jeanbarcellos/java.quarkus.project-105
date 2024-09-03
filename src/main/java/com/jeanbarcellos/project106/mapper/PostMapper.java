@@ -37,9 +37,10 @@ public class PostMapper extends MapperBase<Post> {
         return destination;
     }
 
-    public Comment copy(Comment comment, CommentRequest request) {
-        comment.setText(request.getText());
-        return comment;
+    public Comment copy(Comment destination, CommentRequest source) {
+        destination.setText(source.getText());
+
+        return destination;
     }
 
     private Converter<Long, Person> getPersonConverter() {

@@ -71,6 +71,12 @@ public class Post implements IEntity, IAggregateRoot {
     @OrderBy("id DESC")
     private List<Comment> comments = new ArrayList<>();
 
+    // ---
+
+    public void removeAllComments() {
+        this.comments.clear();
+    }
+
     public boolean addComment(Comment comment) {
         return this.comments.add(comment);
     }
