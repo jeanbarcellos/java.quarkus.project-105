@@ -7,6 +7,8 @@ public class Constants {
     public static final String MSG_ERROR_NOT_FOUND = "Recurso não encontrado.";
     public static final String MSG_ERROR_VALIDATION = "Os dados informados estão inválidos.";
 
+    public static final String MSG_ERROR_PERSISTENCE = "Erro ao consultar ou persistir dados no repositório.";
+
     public static final String MSG_ERROR_ENTITY_NOT_FOUND = "Não existe %s com o ID '%s' informado.";
 
     public static final String ERROR_VALIDATION_JSON_MALFORMATED = "Erro de mapeamento, JSON mal formatado.";

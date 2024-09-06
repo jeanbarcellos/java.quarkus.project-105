@@ -1,7 +1,5 @@
 package com.jeanbarcellos.project106.resources;
 
-import java.net.URI;
-
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.parameters.RequestBody;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
@@ -95,6 +93,8 @@ public class PostResource {
         this.service.deleteAllComments(postId);
         return Response.noContent().build();
     }
+
+    // -------
 
     @POST
     @Path("/{id}/comments")
