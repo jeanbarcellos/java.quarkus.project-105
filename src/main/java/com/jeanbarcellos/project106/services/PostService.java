@@ -1,8 +1,10 @@
 package com.jeanbarcellos.project106.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.jeanbarcellos.core.Constants;
+import com.jeanbarcellos.core.exception.ValidationException;
 import com.jeanbarcellos.core.validation.Validate;
 import com.jeanbarcellos.core.validation.Validator;
 import com.jeanbarcellos.project106.domain.Comment;
@@ -26,7 +28,12 @@ import lombok.extern.slf4j.Slf4j;
 @ApplicationScoped
 public class PostService {
 
-    public static final String MSG_ERROR_POST_NOT_FOUND = "Não há categoria para o ID '%s' informado.";
+    public static final String MSG_ERROR_POST_NOT_FOUND = "Não há post para o ID '%s' informado.";
+
+    public static final String MSG_POST_NAME = "post";
+    public static final String MSG_PESSOA_NAME = "pessoa";
+    public static final String MSG_CATEGORIA_NAME = "categoria";
+    public static final String MSG_COMENTARIO_NAME = "comentário";
 
     @Inject
     protected Validator validator;
@@ -123,6 +130,8 @@ public class PostService {
 
     @Transactional
     public CommentResponse insertComment(@Validate CommentRequest request) {
+        validate(request); // test
+
         var post = this.findByIdOrThrow(request.getPostId());
 
         var comment = this.mapper.to(request, Comment.class);
@@ -168,11 +177,11 @@ public class PostService {
 
     private Comment findCommentByIdOrThrow(Post post, Long commentId) {
 
-        // var comment = post.findCommentById(commentId);
         var comment = this.repository.findCommentById(post.getId(), commentId);
 
         if (comment == null) {
-            throw new NotFoundException(String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "comentário", commentId));
+            throw new NotFoundException(
+                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, MSG_COMENTARIO_NAME, commentId));
         }
 
         return comment;
@@ -181,12 +190,31 @@ public class PostService {
     private void validate(PostRequest request) {
         if (!this.categoryRepository.existsById(request.getCategoryId())) {
             throw new NotFoundException(
-                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "categoria", request.getCategoryId()));
+                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, MSG_CATEGORIA_NAME, request.getCategoryId()));
         }
 
         if (!this.personRepository.existsById(request.getAuthorId())) {
             throw new NotFoundException(
-                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, "pessoa", request.getAuthorId()));
+                    String.format(Constants.MSG_ERROR_ENTITY_NOT_FOUND, MSG_PESSOA_NAME, request.getAuthorId()));
+        }
+    }
+
+    private void validate(CommentRequest request) {
+        var errors = new ArrayList<String>();
+        var pattern = "possui valor de %s que não existe. Valor: %s";
+
+        if (!this.repository.existsById(request.getPostId())) {
+            var msg = String.format(pattern, MSG_CATEGORIA_NAME, request.getPostId());
+            errors.add(Validator.createMessage("postId", msg));
+        }
+
+        if (!this.personRepository.existsById(request.getAuthorId())) {
+            var msg = String.format(pattern, MSG_PESSOA_NAME, request.getAuthorId());
+            errors.add(Validator.createMessage("authorId", msg));
+        }
+
+        if (!errors.isEmpty()) {
+            throw new ValidationException(Constants.MSG_ERROR_VALIDATION, errors);
         }
     }
 
