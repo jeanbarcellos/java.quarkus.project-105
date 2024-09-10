@@ -1,4 +1,4 @@
-## POSTS
+## POSTS Handler
 
 `/GET/posts`
 
@@ -55,6 +55,15 @@ coment/findById
 [Hibernate] select p1_0.id,p1_0.author_id,p1_0.category_id,p1_0.text,p1_0.title from post p1_0 where p1_0.id=?
 [Hibernate] select c1_0.id,c1_0.author_id,c1_0.post_id,c1_0.text from comment c1_0 where c1_0.id=? and c1_0.post_id=?
 
+```java
+this.comments.stream()
+    .filter(comment -> Objects.equals(comment.getId(), commentId))
+    .findFirst()
+    .orElse(null);
+```
+[Hibernate] select p1_0.id,p1_0.author_id,p1_0.category_id,p1_0.text,p1_0.title from post p1_0 where p1_0.id=?
+[Hibernate] select c1_0.post_id,c1_0.id,c1_0.author_id,c1_0.text from comment c1_0 where c1_0.post_id=? order by c1_0.id desc
+
 `PUT/posts/{id}/comments/{commentId}`
 
 [Hibernate] select p1_0.id,p1_0.author_id,p1_0.category_id,p1_0.text,p1_0.title from post p1_0 where p1_0.id=?
@@ -70,9 +79,39 @@ coment/findById
 
 ---
 
+## Query
+
 ````java
 TypedQuery<T> query = this.getEntityManager().createQuery(String qlString, Class<T> resultClass)
 ```java
 
 https://stackoverflow.com/questions/2002993/jpa-getsingleresult-or-null
 ````
+
+## Jackarta Exceptions
+
+`javax.persistence.PersistenceException`
+
+Lançado pelo provedor de persistência quando ocorre um problema.
+Todas as instâncias de `PersistenceException` exceto instâncias de `NoResultException`, `NonUniqueResultException`, `LockTimeoutException`, e `QueryTimeoutException` farão com que a transação atual, se uma estiver ativa e o contexto de persistência tiver sido unido a ela, seja marcada para rollback.
+
+- EntityExistsException
+- EntityNotFoundException
+- LockTimeoutException
+- NonUniqueResultException
+- NoResultException
+- OptimisticLockException
+- PessimisticLockException
+- QueryTimeoutException
+- RollbackException
+- TransactionRequiredException
+
+https://openjpa.apache.org/builds/1.2.3/apache-openjpa/docs/manual.html#jpa_overview_arch
+
+Java Persistence API Architecture
+
+![Persistence API Architecture](images/image-001.png)
+
+JPA Exceptions
+
+![JPA Exceptions](images/image-002.png)
