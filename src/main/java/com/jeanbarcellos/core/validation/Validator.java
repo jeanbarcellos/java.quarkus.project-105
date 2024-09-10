@@ -31,15 +31,24 @@ public class Validator {
         }
     }
 
-    private static <T> ValidationException createValidationException(Set<ConstraintViolation<T>> constraints) {
+    public static <T> ValidationException createValidationException(Set<ConstraintViolation<T>> constraints) {
         return ValidationException.of(Constants.MSG_ERROR_VALIDATION, createMessages(constraints));
     }
 
-    private static <T> List<String> createMessages(Set<ConstraintViolation<T>> constraints) {
+    public static <T> List<String> createMessages(Set<ConstraintViolation<T>> constraints) {
         return constraints.stream()
-                .map(constraint -> String.format(MSG_ERROR,
-                        constraint.getPropertyPath().toString(), constraint.getMessage()))
+                .map(Validator::createMessage)
                 .collect(Collectors.toList());
+    }
+
+    public static <T> String createMessage(ConstraintViolation<T> constraint) {
+        return String.format(MSG_ERROR,
+                constraint.getPropertyPath().toString(),
+                constraint.getMessage());
+    }
+
+    public static String createMessage(String propertyPath, String message) {
+        return String.format(MSG_ERROR, propertyPath, message);
     }
 
 }
