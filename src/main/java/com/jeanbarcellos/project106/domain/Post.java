@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.jeanbarcellos.core.domain.IAggregateRoot;
 import com.jeanbarcellos.core.domain.IEntity;
+import com.jeanbarcellos.core.domain.TimestampEntityBase;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,17 +31,18 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor(staticName = "of")
-@EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+@SuperBuilder
 @Entity
 @DynamicUpdate
 @Table(name = "post")
-public class Post implements IEntity, IAggregateRoot {
+public class Post extends TimestampEntityBase implements IEntity, IAggregateRoot {
 
     @Id
     @GeneratedValue(generator = "post_id_seq_generator", strategy = GenerationType.SEQUENCE)
@@ -56,7 +58,7 @@ public class Post implements IEntity, IAggregateRoot {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "text", nullable = false)
+    @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)

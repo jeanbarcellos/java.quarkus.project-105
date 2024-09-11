@@ -1,5 +1,7 @@
 package com.jeanbarcellos.project106.dtos;
 
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -20,5 +22,7 @@ public class PostResponse {
     private PersonResponse author;
     private String title;
     private String text;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }
