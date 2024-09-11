@@ -48,7 +48,7 @@ public class Comment implements IEntity {
     @JoinColumn(name = "author_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "comment_author_id_fk"), nullable = false)
     private Person author;
 
-    @Column(name = "text", nullable = false)
+    @Column(name = "text", nullable = false, columnDefinition = "text")
     private String text;
 
 }
