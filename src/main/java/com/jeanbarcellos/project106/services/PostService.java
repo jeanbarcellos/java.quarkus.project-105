@@ -45,10 +45,10 @@ public class PostService {
     protected PostMapper mapper;
 
     @Inject
-    PersonRepository personRepository;
+    protected PersonRepository personRepository;
 
     @Inject
-    CategoryRepository categoryRepository;
+    protected CategoryRepository categoryRepository;
 
     public List<PostResponse> getAll() {
         var entities = this.repository.listAll();

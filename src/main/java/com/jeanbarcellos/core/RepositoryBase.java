@@ -206,4 +206,12 @@ public class RepositoryBase<TEntity extends IAggregateRoot, TId> // TId=ID, TEnt
     }
 
     // #endregion
+
+    public void detach(TEntity entity) {
+        this.getEntityManager().detach(entity);
+    }
+
+    public void merge(TEntity entity) {
+        this.getEntityManager().merge(entity);
+    }
 }
