@@ -4,10 +4,10 @@ import java.lang.annotation.Annotation;
 
 import jakarta.annotation.Priority;
 import jakarta.enterprise.context.Dependent;
-import jakarta.inject.Inject;
 import jakarta.interceptor.AroundInvoke;
 import jakarta.interceptor.Interceptor;
 import jakarta.interceptor.InvocationContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,9 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 @Validate
 @Priority(0)
 @Interceptor
+@RequiredArgsConstructor
 public class ValidateInterceptor {
 
-    @Inject
     protected Validator validator;
 
     @AroundInvoke

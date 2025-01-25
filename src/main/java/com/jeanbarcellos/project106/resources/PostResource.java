@@ -9,7 +9,6 @@ import com.jeanbarcellos.project106.dtos.PostRequest;
 import com.jeanbarcellos.project106.services.PostService;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -22,16 +21,17 @@ import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
+import lombok.RequiredArgsConstructor;
 
 @Path("/posts")
 @Tag(name = "Post handler")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @ApplicationScoped
+@RequiredArgsConstructor
 public class PostResource {
 
-    @Inject
-    protected PostService service;
+    protected final PostService service;
 
     @GET
     @Path("/")

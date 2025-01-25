@@ -13,26 +13,24 @@ import com.jeanbarcellos.project106.mapper.PersonMapper;
 import com.jeanbarcellos.project106.repositories.PersonRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @ApplicationScoped
 public class PersonService {
 
     public static final String MSG_ERROR_PERSON_NOT_FOUND = "Não há pessoa para o ID '%s' informado.";
     public static final String MSG_ERROR_PERSON_CPF_EXISTS = "Pessoa com o CPF '%s' já existe.";
 
-    @Inject
-    protected Validator validator;
+    protected final Validator validator;
 
-    @Inject
-    protected PersonRepository repository;
+    protected final PersonRepository repository;
 
-    @Inject
-    protected PersonMapper mapper;
+    protected final PersonMapper mapper;
 
     public List<PersonResponse> getAll() {
         var entities = this.repository.listAll();

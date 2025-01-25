@@ -8,15 +8,15 @@ import com.jeanbarcellos.core.Constants;
 import com.jeanbarcellos.core.exception.ValidationException;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.validation.ConstraintViolation;
+import lombok.RequiredArgsConstructor;
 
 @ApplicationScoped
+@RequiredArgsConstructor
 public class Validator {
 
     public static final String MSG_ERROR = "O campo '%s' %s";
 
-    @Inject
     jakarta.validation.Validator innerValidator;
 
     public <T> Set<ConstraintViolation<T>> getViolations(T model) {

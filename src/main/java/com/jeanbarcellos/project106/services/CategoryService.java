@@ -11,24 +11,22 @@ import com.jeanbarcellos.project106.mapper.CategoryMapper;
 import com.jeanbarcellos.project106.repositories.CategoryRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @ApplicationScoped
 public class CategoryService {
 
     public static final String MSG_ERROR_CATEGORY_NOT_FOUND = "Não há categoria para o ID '%s' informado.";
 
-    @Inject
     protected Validator validator;
 
-    @Inject
     protected CategoryRepository repository;
 
-    @Inject
     protected CategoryMapper mapper;
 
     public List<CategoryResponse> getAll() {

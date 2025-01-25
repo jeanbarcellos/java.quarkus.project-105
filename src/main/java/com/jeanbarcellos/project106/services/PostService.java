@@ -19,12 +19,13 @@ import com.jeanbarcellos.project106.repositories.PersonRepository;
 import com.jeanbarcellos.project106.repositories.PostRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@RequiredArgsConstructor
 @ApplicationScoped
 public class PostService {
 
@@ -35,20 +36,15 @@ public class PostService {
     public static final String MSG_CATEGORIA_NAME = "categoria";
     public static final String MSG_COMENTARIO_NAME = "comentário";
 
-    @Inject
-    protected Validator validator;
+    protected final Validator validator;
 
-    @Inject
-    protected PostRepository repository;
+    protected final PostRepository repository;
 
-    @Inject
-    protected PostMapper mapper;
+    protected final PostMapper mapper;
 
-    @Inject
-    protected PersonRepository personRepository;
+    protected final PersonRepository personRepository;
 
-    @Inject
-    protected CategoryRepository categoryRepository;
+    protected final CategoryRepository categoryRepository;
 
     public List<PostResponse> getAll() {
         var entities = this.repository.listAll();

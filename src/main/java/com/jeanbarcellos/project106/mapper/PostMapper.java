@@ -13,17 +13,16 @@ import com.jeanbarcellos.project106.repositories.CategoryRepository;
 import com.jeanbarcellos.project106.repositories.PersonRepository;
 
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.inject.Inject;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @ApplicationScoped
+@RequiredArgsConstructor
 public class PostMapper extends MapperBase<Post> {
 
-    @Inject
     protected PersonRepository personRepository;
 
-    @Inject
     protected CategoryRepository categoryRepository;
 
     public Post copy(Post destination, PostRequest source) {
